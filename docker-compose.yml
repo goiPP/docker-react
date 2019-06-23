@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: . # specify where do we want to look up for the dockerfile
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules # don't map any local files with this folder inside container
+      - .:/app # map everything in local current dir to /app folder in container
+  tests: # container just for running test
+    build: 
+        context: . 
+        dockerfile: Dockerfile.dev
+      ports:
+        - "3000:3000"
+      volumes:
+        - /app/node_modules
+        - .:/app
+      command: ["npm", "run", "test"] # to override command in Dokcerfile.dev
